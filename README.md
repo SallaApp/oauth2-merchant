@@ -12,7 +12,7 @@ Please follow the [Salla instructions][oauth-setup] to create the required crede
 
 ## OAuth Workflow
 
-![OAuth Workflow](https://i.ibb.co/xLyn80t/Frame-1236-OAuth-5.png)
+![OAuth Workflow](https://i.ibb.co/xLyn80t/Frame-1236-OAuth-5.png )
 
 ## Installation
 
