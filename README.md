@@ -83,7 +83,7 @@ try {
     //
     // Using the access token, we may look up details about the merchant.
     // --- Same request in Curl ---
-    // curl --request GET --url 'https://api.salla.dev/admin/v2/oauth2/user/info' --header 'Authorization: Bearer <access-token>'
+    // curl --request GET --url 'https://accounts.salla.sa/oauth2/user/info' --header 'Authorization: Bearer <access-token>'
 
     /** @var \Salla\OAuth2\Client\Provider\SallaUser $user */
     $user = $provider->getResourceOwner($token->getToken());
