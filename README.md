@@ -86,7 +86,7 @@ try {
     // curl --request GET --url 'https://accounts.salla.sa/oauth2/user/info' --header 'Authorization: Bearer <access-token>'
 
     /** @var \Salla\OAuth2\Client\Provider\SallaUser $user */
-    $user = $provider->getResourceOwner($token->getToken());
+    $user = $provider->getResourceOwner($token);
 
     /**
      *  {
