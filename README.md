@@ -29,6 +29,8 @@ composer require salla/ouath2-merchant
 ```php
 <?php
 
+require_once './vendor/autoload.php';
+
 use Salla\OAuth2\Client\Provider\Salla;
 
 $provider = new Salla([
