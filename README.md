@@ -3,7 +3,7 @@
   <a href="https://salla.dev"> 
     <img src="https://salla.dev/wp-content/themes/salla-portal/dist/img/salla-logo.svg" alt="Logo" width="80" height="80"> 
   </a>
-  <h1 align="center">Salla Provider for OAuth 2.0 Client</h1>
+  <h1 align="center">Salla OAuth 2.0 Client</h1>
   <p align="center">
     This package provides <a href="https://salla.dev/blog/oauth-callback-urls/">Salla OAuth 2.0</a> support for the PHP language <a href="https://github.com/thephpleague/oauth2-client">OAuth 2.0 Client</a>.
     <br />
