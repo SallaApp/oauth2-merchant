@@ -1,10 +1,23 @@
-# Salla Provider for OAuth 2.0 Client
+<div id="top"></div>
+<div align="center"> 
+  <a href="https://salla.dev"> 
+    <img src="https://salla.dev/wp-content/themes/salla-portal/dist/img/salla-logo.svg" alt="Logo" width="80" height="80"> 
+  </a>
+  <h1 align="center">Salla Provider for OAuth 2.0 Client</h1>
+  <p align="center">
+    This package provides <a href="https://salla.dev/blog/oauth-callback-urls/">Salla OAuth 2.0</a> support for the PHP language <a href="https://github.com/thephpleague/oauth2-client">OAuth 2.0 Client</a>.
+    <br />
+    <a href="https://salla.dev/"><strong>Explore our blogs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/SallaApp/#/issues/new">Report Bug</a> · 
+    <a href="https://github.com/SallaApp/#/discussions/new">Request Feature</a>
+  </p>
+</div>
 
-This package provides [Salla OAuth 2.0][oauth-setup] support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
+## Overview
 
-To use this package, it will be necessary to have a Salla client ID and client
-secret. These are referred to as `{client-id}` and `{client-secret}`
-in the documentation.
+To use this package, it will be necessary to have a Salla client ID and client secret. These are referred to as `{client-id}` and `{client-secret}` in the documentation.
 
 Please follow the [Salla instructions][oauth-setup] to create the required credentials.
 
@@ -21,6 +34,7 @@ You can install the package via composer:
 ```bash
 composer require salla/ouath2-merchant
 ```
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Usage
 
@@ -149,6 +163,7 @@ try {
     exit($e->getMessage());
 }
 ```
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Refreshing a Token
 
@@ -167,25 +182,40 @@ $token = $provider->getAccessToken('refresh_token', ['refresh_token' => $refresh
 
 ```
 
-### Testing
+## Testing
 
 ```bash
 composer test
 ```
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Contributions are what makes the open-source community such an amazing place to learn, inspire, and create. 
+Any contributions you make are **greatly appreciated**.
 
-### Security
+If you have a suggestion that would make this better, please fork the repo and create a pull request. 
+You can also simply open an issue with the tag "enhancement". Don't forget to give the project a star! Thanks again!
 
-If you discover any security related issues, please email security@salla.sa instead of using the issue tracker.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Security
+
+If you discover any securitysrelated issues, please email security@salla.sa instead of using the issue tracker.
 
 ## Credits
 
--   [Salla](https://github.com/sallaApp)
--   [All Contributors](../../contributors)
+- [Salla](https://github.com/sallaApp)
+- [All Contributors](../../contributors)
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
