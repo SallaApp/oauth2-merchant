@@ -10,8 +10,8 @@
     <a href="https://salla.dev/"><strong>Explore our blogs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/SallaApp/#/issues/new">Report Bug</a> · 
-    <a href="https://github.com/SallaApp/#/discussions/new">Request Feature</a>
+    <a href="https://github.com/SallaApp/oauth2-merchant/issues/new">Report Bug</a> · 
+    <a href="https://github.com/SallaApp/oauth2-merchant/discussions/new">Request Feature</a>
   </p>
 </div>
 
