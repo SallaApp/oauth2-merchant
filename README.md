@@ -80,8 +80,8 @@ try {
     //
     // ## Refresh Token
     //
-    // You should store the refresh token in somewhere in your system because the access token expired after 14 days
-    // so you can use the refresh token after that to generate an new access token without ask any access from the merchant
+    // You should store the refresh token somewhere in your system because the access token expired after 14 days
+    // so you can use the refresh token after that to generate a new access token without asking any access from the merchant
     //
     // $token = $provider->getAccessToken(new RefreshToken(), ['refresh_token' => $token->getRefreshToken()]);
     //
@@ -90,8 +90,8 @@ try {
     //
     // ## Expire date
     //
-    // This help you to know when the access token will expired
-    // so before that date you should generate a new access token using the refresh token
+    // This helps you to know when the access token will be expired
+    // so before that date, you should generate a new access token using the refresh token
     echo 'Expire Date : '.$token->getExpires()."<br>";
 
     //
@@ -137,7 +137,7 @@ try {
     //
     // 🥳
     //
-    // You can now save the access token and refresh token in your database
+    // You can now save the access token and refresh the token in your database
     // with the merchant details and redirect him again to Salla dashboard (https://s.salla.sa/apps)
 
 
@@ -167,7 +167,7 @@ try {
 
 ## Refreshing a Token
 
-Refresh tokens are only provided to applications which request offline access. You can specify offline access by passing the scope option in your getAuthorizationUrl() request.
+Refresh tokens are only provided to applications that request offline access. You can specify offline access by passing the scope option in your getAuthorizationUrl() request.
 
 ```php
 use Salla\OAuth2\Client\Provider\Salla;
@@ -191,7 +191,7 @@ composer test
 
 ## Contributing
 
-Contributions are what makes the open-source community such an amazing place to learn, inspire, and create. 
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. 
 Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. 
@@ -207,7 +207,7 @@ You can also simply open an issue with the tag "enhancement". Don't forget to gi
 
 ## Security
 
-If you discover any securitysrelated issues, please email security@salla.sa instead of using the issue tracker.
+If you discover any securitys-related issues, please email security@salla.sa instead of using the issue tracker.
 
 ## Credits
 
