@@ -83,8 +83,8 @@ class Salla extends AbstractProvider
         if (empty($data['error'])) {
             return;
         }
-
-        $error = isset($data['error']['message']) ? $data['error']['message'] : null;
+        
+        $error = $data['error']['message'] ?? $data['error_description'] ?? null;
         throw new IdentityProviderException(
             $error,
             $response->getStatusCode(),
