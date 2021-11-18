@@ -3,14 +3,16 @@
 namespace Salla\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
-use Psr\Http\Message\ResponseInterface;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use League\OAuth2\Client\Token\AccessToken;
+use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
+use Psr\Http\Message\ResponseInterface;
 
 class Salla extends AbstractProvider
 {
     use BearerAuthorizationTrait;
+
+    protected $base_url = 'https://accounts.salla.sa';
 
     /**
      * Get authorization url to begin OAuth flow
@@ -19,40 +21,56 @@ class Salla extends AbstractProvider
      */
     public function getBaseAuthorizationUrl()
     {
-        return 'https://accounts.salla.sa/oauth2/auth';
+        return $this->base_url.'/oauth2/auth';
     }
 
     /**
      * Get access token url to retrieve token
      *
-     * @param array $params
+     * @param  array  $params
      *
      * @return string
      */
     public function getBaseAccessTokenUrl(array $params)
     {
-        return 'https://accounts.salla.sa/oauth2/token';
+        return $this->base_url.'/oauth2/token';
     }
 
     /**
      * Get provider url to fetch user details
      *
-     * @param AccessToken $token
+     * @param  AccessToken  $token
      *
      * @return string
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return 'https://accounts.salla.sa/oauth2/user/info';
+        return $this->base_url.'/oauth2/user/info';
     }
 
     /**
-     * @var array List of scopes that will be used for authentication.
-     * @link https://www.salla.com/crm/developer/docs/api/oauth-overview.html#scopes
+     * Set base url for the authentication server.
+     *
+     * @param  string  $base_url
+     *
+     * @return Salla
+     */
+    public function setBaseUrl(string $base_url): Salla
+    {
+        $this->base_url = $base_url;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     *
+     * @link https://salla.dev/blog/oauth-2-0-in-action-with-salla/
+     *
      * The provided scope will be used if you don't give any scope
      * and this scope will be used to grab user accounts public information
      *
-     * @return array
+     * @var array List of scopes that will be used for authentication.
      */
     protected function getDefaultScopes()
     {
@@ -73,8 +91,8 @@ class Salla extends AbstractProvider
     /**
      * Check a provider response for errors.
      *
-     * @param  ResponseInterface $response
-     * @param  array|string $data
+     * @param  ResponseInterface  $response
+     * @param  array|string  $data
      *
      * @throws IdentityProviderException
      */
@@ -83,7 +101,7 @@ class Salla extends AbstractProvider
         if (empty($data['error'])) {
             return;
         }
-        
+
         $error = $data['error']['message'] ?? $data['error_description'] ?? null;
         throw new IdentityProviderException(
             $error,
@@ -95,8 +113,8 @@ class Salla extends AbstractProvider
     /**
      * Generate a user object from a successful user details request.
      *
-     * @param array $response
-     * @param AccessToken $token
+     * @param  array  $response
+     * @param  AccessToken  $token
      *
      * @return SallaUser
      */
@@ -106,16 +124,17 @@ class Salla extends AbstractProvider
     }
 
     /**
-     * @param string $method
-     * @param string $url
-     * @param string|AccessToken $token
-     * @param array $options
+     * @param  string  $method
+     * @param  string  $url
+     * @param  string|AccessToken  $token
+     * @param  array  $options
+     *
      * @return array|mixed|string
      * @throws IdentityProviderException
      */
     public function fetchResource(string $method, string $url, $token, array $options = [])
     {
-        if ($token instanceof AccessToken){
+        if ($token instanceof AccessToken) {
             $token = $token->getToken();
         }
 
