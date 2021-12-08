@@ -14,6 +14,8 @@ class Salla extends AbstractProvider
 
     protected $base_url = 'https://accounts.salla.sa';
 
+    protected $headers = [];
+
     /**
      * Get authorization url to begin OAuth flow
      *
@@ -58,6 +60,18 @@ class Salla extends AbstractProvider
     public function setBaseUrl(string $base_url): Salla
     {
         $this->base_url = $base_url;
+
+        return $this;
+    }
+
+    /**
+     * @param  array  $headers
+     *
+     * @return Salla
+     */
+    public function setHeaders(array $headers): Salla
+    {
+        $this->headers = $headers;
 
         return $this;
     }
@@ -141,5 +155,17 @@ class Salla extends AbstractProvider
         $request = $this->getAuthenticatedRequest($method, $url, $token);
 
         return $this->getParsedResponse($request);
+    }
+
+    /**
+     * Returns the default headers used by this provider.
+     *
+     * Typically this is used to set 'Accept' or 'Content-Type' headers.
+     *
+     * @return array
+     */
+    protected function getDefaultHeaders()
+    {
+        return $this->headers;
     }
 }
