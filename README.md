@@ -12,6 +12,7 @@
     <br />
     <a href="https://github.com/SallaApp/oauth2-merchant/issues/new">Report Bug</a> · 
     <a href="https://github.com/SallaApp/oauth2-merchant/discussions/new">Request Feature</a>
+     · <a href="https://t.me/salladev">&lt;/Salla Developers&gt;</a>
   </p>
 </div>
 
