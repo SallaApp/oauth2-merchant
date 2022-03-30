@@ -80,6 +80,7 @@ class SallaUser implements ResourceOwnerInterface
      * Get store id.
      *
      * @return string|null
+     * @deprecated deprecated and will be removed on June 6, 2022. Instead, read the data from the merchant functions.
      */
     public function getStoreId()
     {
@@ -90,6 +91,7 @@ class SallaUser implements ResourceOwnerInterface
      * Get store owner id.
      *
      * @return string|null
+     * @deprecated deprecated and will be removed on June 6, 2022. Instead, read the data from the merchant functions.
      */
     public function getStoreOwnerID()
     {
@@ -100,6 +102,7 @@ class SallaUser implements ResourceOwnerInterface
      * Get store owner name.
      *
      * @return string|null
+     * @deprecated deprecated and will be removed on June 6, 2022. Instead, read the data from the merchant functions.
      */
     public function getStoreOwnerName()
     {
@@ -110,6 +113,7 @@ class SallaUser implements ResourceOwnerInterface
      * Get store username.
      *
      * @return string|null
+     * @deprecated deprecated and will be removed on June 6, 2022. Instead, read the data from the merchant functions.
      */
     public function getStoreUsername()
     {
@@ -120,6 +124,7 @@ class SallaUser implements ResourceOwnerInterface
      * Get store name.
      *
      * @return string|null
+     * @deprecated deprecated and will be removed on June 6, 2022. Instead, read the data from the merchant functions.
      */
     public function getStoreName()
     {
@@ -130,6 +135,7 @@ class SallaUser implements ResourceOwnerInterface
      * Get store avatar.
      *
      * @return string|null
+     * @deprecated deprecated and will be removed on June 6, 2022. Instead, read the data from the merchant functions.
      */
     public function getStoreAvatar()
     {
@@ -140,6 +146,7 @@ class SallaUser implements ResourceOwnerInterface
      * Get store location.
      *
      * @return string|null
+     * @deprecated deprecated and will be removed on June 6, 2022. Instead, read the data from the merchant functions.
      */
     public function getStoreLocation()
     {
@@ -150,6 +157,7 @@ class SallaUser implements ResourceOwnerInterface
      * Get store plan.
      *
      * @return string|null
+     * @deprecated deprecated and will be removed on June 6, 2022. Instead, read the data from the merchant functions.
      */
     public function getStorePlan()
     {
@@ -160,6 +168,7 @@ class SallaUser implements ResourceOwnerInterface
      * Get store status.
      *
      * @return string|null
+     * @deprecated deprecated and will be removed on June 6, 2022. Instead, read the data from the merchant functions.
      */
     public function getStoreStatus()
     {
@@ -171,12 +180,94 @@ class SallaUser implements ResourceOwnerInterface
      *
      * @return \DateTime
      * @throws Exception
+     * @deprecated deprecated and will be removed on June 6, 2022. Instead, read the data from the merchant functions.
      */
     public function getStoreCreatedAt()
     {
         return new \DateTime($this->getResponseValue('data.store.created_at'));
     }
 
+
+    /**
+     * Get merchant id.
+     *
+     * @return string|null
+     */
+    public function getMerchantId()
+    {
+        return $this->getResponseValue('data.merchant.id');
+    }
+
+    /**
+     * Get merchant username.
+     *
+     * @return string|null
+     */
+    public function getMerchantUsername()
+    {
+        return $this->getResponseValue('data.merchant.username');
+    }
+
+    /**
+     * Get merchant name.
+     *
+     * @return string|null
+     */
+    public function getMerchantName()
+    {
+        return $this->getResponseValue('data.merchant.name');
+    }
+
+    /**
+     * Get merchant avatar.
+     *
+     * @return string|null
+     */
+    public function getMerchantAvatar()
+    {
+        return $this->getResponseValue('data.merchant.avatar');
+    }
+
+    /**
+     * Get merchant location.
+     *
+     * @return string|null
+     */
+    public function getMerchantLocation()
+    {
+        return $this->getResponseValue('data.merchant.store_location');
+    }
+
+    /**
+     * Get merchant plan.
+     *
+     * @return string|null
+     */
+    public function getMerchantPlan()
+    {
+        return $this->getResponseValue('data.merchant.plan');
+    }
+
+    /**
+     * Get merchant status.
+     *
+     * @return string|null
+     */
+    public function getMerchantStatus()
+    {
+        return $this->getResponseValue('data.merchant.status');
+    }
+
+    /**
+     * Get merchant created at.
+     *
+     * @return \DateTime
+     * @throws Exception
+     */
+    public function getMerchantCreatedAt()
+    {
+        return new \DateTime($this->getResponseValue('data.merchant.created_at'));
+    }
     /**
      * Get user data as an array.
      *
