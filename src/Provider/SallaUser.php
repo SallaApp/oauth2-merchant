@@ -83,27 +83,29 @@ class SallaUser implements ResourceOwnerInterface
      */
     public function getStoreId()
     {
-        return $this->getResponseValue('data.store.id');
+        return $this->getResponseValue('data.merchant.id');
     }
 
     /**
      * Get store owner id.
      *
      * @return string|null
+     * @deprecated it will be removed next version
      */
     public function getStoreOwnerID()
     {
-        return $this->getResponseValue('data.store.owner_id');
+        return $this->getResponseValue('data.merchant.owner_id');
     }
 
     /**
      * Get store owner name.
      *
      * @return string|null
+     * @deprecated it will be removed next version
      */
     public function getStoreOwnerName()
     {
-        return $this->getResponseValue('data.store.owner_name');
+        return $this->getResponseValue('data.merchant.owner_name');
     }
 
     /**
@@ -113,7 +115,7 @@ class SallaUser implements ResourceOwnerInterface
      */
     public function getStoreUsername()
     {
-        return $this->getResponseValue('data.store.username');
+        return $this->getResponseValue('data.merchant.username');
     }
 
     /**
@@ -123,7 +125,7 @@ class SallaUser implements ResourceOwnerInterface
      */
     public function getStoreName()
     {
-        return $this->getResponseValue('data.store.name');
+        return $this->getResponseValue('data.merchant.name');
     }
 
     /**
@@ -133,7 +135,7 @@ class SallaUser implements ResourceOwnerInterface
      */
     public function getStoreAvatar()
     {
-        return $this->getResponseValue('data.store.avatar');
+        return $this->getResponseValue('data.merchant.avatar');
     }
 
     /**
@@ -143,7 +145,7 @@ class SallaUser implements ResourceOwnerInterface
      */
     public function getStoreLocation()
     {
-        return $this->getResponseValue('data.store.store_location');
+        return $this->getResponseValue('data.merchant.store_location');
     }
 
     /**
@@ -153,7 +155,7 @@ class SallaUser implements ResourceOwnerInterface
      */
     public function getStorePlan()
     {
-        return $this->getResponseValue('data.store.plan');
+        return $this->getResponseValue('data.merchant.plan');
     }
 
     /**
@@ -163,7 +165,7 @@ class SallaUser implements ResourceOwnerInterface
      */
     public function getStoreStatus()
     {
-        return $this->getResponseValue('data.store.status');
+        return $this->getResponseValue('data.merchant.status');
     }
 
     /**
@@ -174,7 +176,7 @@ class SallaUser implements ResourceOwnerInterface
      */
     public function getStoreCreatedAt()
     {
-        return new \DateTime($this->getResponseValue('data.store.created_at'));
+        return new \DateTime($this->getResponseValue('data.merchant.created_at'));
     }
 
     /**

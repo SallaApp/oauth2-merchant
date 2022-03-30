@@ -22,8 +22,6 @@ class SallaUserTest extends TestCase
                 'created_at' => '2018-04-28 17:46:25',
                 'store'=>[
                     'id'=>'11111',
-                    'owner_id'=> '12345',
-                    'owner_name'=> 'mock name',
                     'username'=> 'mock_name',
                     'name'=> 'mock name',
                     'avatar'=>'mock_avatar',
@@ -31,7 +29,17 @@ class SallaUserTest extends TestCase
                     'plan'=>'mock_plan',
                     'status'=>'mock_status',
                     'created_at'=>'2018-04-28 17:46:25',
-                ]
+                ],
+                'merchant'=>[
+                    'id'=>'11111',
+                    'username'=> 'mock_name',
+                    'name'=> 'mock name',
+                    'avatar'=>'mock_avatar',
+                    'store_location'=>'mock_location',
+                    'plan'=>'mock_plan',
+                    'status'=>'mock_status',
+                    'created_at'=>'2018-04-28 17:46:25',
+                ],
         ]]);
 
         $this->assertEquals(12345, $user->getId());
@@ -41,8 +49,8 @@ class SallaUserTest extends TestCase
         $this->assertEquals('user', $user->getRole());
         $this->assertEquals( '2018-04-28 17:46:25', $user->getCreatedAt()->format('Y-m-d H:i:s'));
         $this->assertEquals(11111, $user->getStoreId());
-        $this->assertEquals(12345, $user->getStoreOwnerID());
-        $this->assertEquals('mock name', $user->getStoreOwnerName());
+        $this->assertEquals(null, $user->getStoreOwnerID());
+        $this->assertEquals(null, $user->getStoreOwnerName());
         $this->assertEquals('mock_name', $user->getStoreUsername());
         $this->assertEquals('mock name', $user->getStoreName());
         $this->assertEquals('mock_avatar', $user->getStoreAvatar());

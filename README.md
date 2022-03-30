@@ -106,27 +106,26 @@ try {
     $user = $provider->getResourceOwner($token);
 
     /**
-     *  {
-     *      "id": 181690847,
-     *      "name": "eman elsbay",
-     *      "email": "user@salla.sa",
-     *      "mobile": "555454545",
-     *      "role": "user",
-     *      "created_at": "2018-04-28 17:46:25",
-     *      "store": {
-     *        "id": 633170215,
-     *        "owner_id": 181690847,
-     *        "owner_name": "eman elsbay",
-     *        "username": "good-store",
-     *        "name": "متجر الموضة",
-     *        "avatar": "https://cdn.salla.sa/XrXj/g2aYPGNvafLy0TUxWiFn7OqPkKCJFkJQz4Pw8WsS.jpeg",
-     *        "store_location": "26.989000873354787,49.62477639657287",
-     *        "plan": "special",
-     *        "status": "active",
-     *        "created_at": "2019-04-28 17:46:25"
-     *      }
-     *    }
-     */
+    *  {
+    *    "id": 1771165749,
+    *    "name": "Test User",
+    *    "email": "testuser@email.partners",
+    *    "mobile": "+966500000000",
+    *    "role": "user",
+    *    "created_at": "2021-12-31 11:36:57",
+    *    "merchant": {
+    *      "id": 1803665367,
+    *      "username": "dev-j8gtzhp59w3irgsw",
+    *      "name": "dev-j8gtzhp59w3irgsw",
+    *      "avatar": "https://i.ibb.co/jyqRQfQ/avatar-male.webp",
+    *      "store_location": "26.989000873354787,49. 62477639657287",
+    *      "plan": "special",
+    *      "status": "active",
+    *      "domain": "https://salla.sa/YOUR-DOMAIN-NAME",
+    *      "created_at": "2021-12-31 11:36:57"
+    *    }
+    *  }
+    */
     var_export($user->toArray());
 
     echo 'User ID: '.$user->getId()."<br>";
