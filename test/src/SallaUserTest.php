@@ -58,14 +58,6 @@ class SallaUserTest extends TestCase
         $this->assertEquals('mock_plan', $user->getStorePlan());
         $this->assertEquals('mock_status', $user->getStoreStatus());
         $this->assertEquals( '2018-04-28 17:46:25', $user->getStoreCreatedAt()->format('Y-m-d H:i:s'));
-        $this->assertEquals(11111, $user->getMerchantId());
-        $this->assertEquals('mock_name', $user->getMerchantUsername());
-        $this->assertEquals('mock name', $user->getMerchantName());
-        $this->assertEquals('mock_avatar', $user->getMerchantAvatar());
-        $this->assertEquals('mock_location', $user->getMerchantLocation());
-        $this->assertEquals('mock_plan', $user->getMerchantPlan());
-        $this->assertEquals('mock_status', $user->getMerchantStatus());
-        $this->assertEquals( '2018-04-28 17:46:25', $user->getMerchantCreatedAt()->format('Y-m-d H:i:s'));
     }
 
     public function testUserPartialData()
