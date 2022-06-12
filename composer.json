@@ -26,7 +26,7 @@
         "eloquent/phony-phpunit": "^4.0.0",
         "phpunit/phpunit": "~7.0.0",
         "mockery/mockery": "~1.3.0",
-        "jakub-onderka/php-parallel-lint": "^0.9.2",
+        "jakub-onderka/php-parallel-lint": "^0.9.2 || ^1.0.0",
         "php-coveralls/php-coveralls": "^2.1",
         "squizlabs/php_codesniffer": "^2.0"
     },
