@@ -169,6 +169,36 @@ class SallaUser implements ResourceOwnerInterface
     }
 
     /**
+     * Get store status.
+     *
+     * @return string|null
+     */
+    public function getStoreDomain()
+    {
+        return $this->getResponseValue('data.merchant.domain');
+    }
+
+    /**
+     * Get store status.
+     *
+     * @return string|null
+     */
+    public function getStoreTaxNumber()
+    {
+        return $this->getResponseValue('data.merchant.tax_number');
+    }
+
+    /**
+     * Get store status.
+     *
+     * @return string|null
+     */
+    public function getStoreCommercialNumber()
+    {
+        return $this->getResponseValue('data.merchant.tax_number');
+    }
+
+    /**
      * Get store created at.
      *
      * @return \DateTime
