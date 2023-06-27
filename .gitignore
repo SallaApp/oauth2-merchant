@@ -1,4 +1,5 @@
 build
+.idea
 composer.lock
 docs
 vendor
