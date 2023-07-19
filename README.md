@@ -1,7 +1,7 @@
 <div id="top"></div>
 <div align="center"> 
   <a href="https://salla.dev"> 
-    <img src="https://salla.dev/wp-content/themes/salla-portal/dist/img/salla-logo.svg" alt="Logo" width="80" height="80"> 
+    <img src="https://salla.dev/wp-content/uploads/2023/03/1-Light.png" alt="Logo"> 
   </a>
   <h1 align="center">Salla OAuth 2.0 Client</h1>
   <p align="center">
@@ -54,8 +54,11 @@ $provider = new Salla([
     'redirectUri'  => 'https://yourservice.com/callback_url', // the url for current page in your service
 ]);
 
-if (!isset($_GET['code']) || empty($_GET['code'])) {
-    // If we don't have an authorization code then get one
+/**
+ * In case the current callback url doesn't have an authorization_code
+ * Let's redirect the merchant to installation/authorization app workflow
+ */
+if (empty($_GET['code'])) {
     $authUrl = $provider->getAuthorizationUrl([
         'scope' => 'offline_access',
         //Important: If you want to generate the refresh token, set this value as offline_access
@@ -65,7 +68,11 @@ if (!isset($_GET['code']) || empty($_GET['code'])) {
     exit;
 }
 
-// Try to obtain an access token by utilizing the authorisations code grant.
+/**
+ * The merchant complete the installation/authorization app workflow
+ * And the callback url have an authorization_code as parameter
+ * Let's exchange the authorization_code with access token
+ */
 try {
     $token = $provider->getAccessToken('authorization_code', [
         'code' => $_GET['code']
@@ -81,7 +88,7 @@ try {
     //
     // ## Refresh Token
     //
-    // You should store the refresh token somewhere in your system because the access token expired after 14 days
+    // You should store the refresh token somewhere in your system because the access token expired after 14 days,
     // so you can use the refresh token after that to generate a new access token without asking any access from the merchant
     //
     // $token = $provider->getAccessToken(new RefreshToken(), ['refresh_token' => $token->getRefreshToken()]);
@@ -106,26 +113,26 @@ try {
     $user = $provider->getResourceOwner($token);
 
     /**
-    *  {
-    *    "id": 1771165749,
-    *    "name": "Test User",
-    *    "email": "testuser@email.partners",
-    *    "mobile": "+966500000000",
-    *    "role": "user",
-    *    "created_at": "2021-12-31 11:36:57",
-    *    "merchant": {
-    *      "id": 1803665367,
-    *      "username": "dev-j8gtzhp59w3irgsw",
-    *      "name": "dev-j8gtzhp59w3irgsw",
-    *      "avatar": "https://i.ibb.co/jyqRQfQ/avatar-male.webp",
-    *      "store_location": "26.989000873354787,49. 62477639657287",
-    *      "plan": "special",
-    *      "status": "active",
-    *      "domain": "https://salla.sa/YOUR-DOMAIN-NAME",
-    *      "created_at": "2021-12-31 11:36:57"
-    *    }
-    *  }
-    */
+     *  {
+     *    "id": 1771165749,
+     *    "name": "Test User",
+     *    "email": "testuser@email.partners",
+     *    "mobile": "+966500000000",
+     *    "role": "user",
+     *    "created_at": "2021-12-31 11:36:57",
+     *    "merchant": {
+     *      "id": 1803665367,
+     *      "username": "dev-j8gtzhp59w3irgsw",
+     *      "name": "dev-j8gtzhp59w3irgsw",
+     *      "avatar": "https://i.ibb.co/jyqRQfQ/avatar-male.webp",
+     *      "store_location": "26.989000873354787,49. 62477639657287",
+     *      "plan": "special",
+     *      "status": "active",
+     *      "domain": "https://salla.sa/YOUR-DOMAIN-NAME",
+     *      "created_at": "2021-12-31 11:36:57"
+     *    }
+     *  }
+     */
     var_export($user->toArray());
 
     echo 'User ID: '.$user->getId()."<br>";
@@ -154,12 +161,12 @@ try {
         'https://api.salla.dev/admin/v2/orders',
         $token->getToken()
     );
-    
+
     var_export($response);
 
 } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
     // Failed to get the access token or merchant details.
-    // show a error message to the merchant with good UI
+    // show an error message to the merchant with good UI
     exit($e->getMessage());
 }
 ```
