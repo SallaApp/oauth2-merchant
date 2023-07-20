@@ -169,7 +169,7 @@ class SallaUser implements ResourceOwnerInterface
     }
 
     /**
-     * Get store status.
+     * Get store domain.
      *
      * @return string|null
      */
