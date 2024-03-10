@@ -30,7 +30,7 @@ Please follow the [Salla instructions][oauth-setup] to create the required crede
 
 ## Installation
 
-You can install the package via composer:
+You can install the package via Composer:
 
 ```bash
 composer require salla/ouath2-merchant
@@ -56,7 +56,7 @@ $provider = new Salla([
 
 /**
  * In case the current callback url doesn't have an authorization_code
- * Let's redirect the merchant to installation/authorization app workflow
+ * Let's redirect the merchant to the installation/authorization app workflow
  */
 if (empty($_GET['code'])) {
     $authUrl = $provider->getAuthorizationUrl([
@@ -69,8 +69,8 @@ if (empty($_GET['code'])) {
 }
 
 /**
- * The merchant complete the installation/authorization app workflow
- * And the callback url have an authorization_code as parameter
+ * The merchant completes the installation/authorization app workflow
+ * And the callback url has an authorization_code as a parameter
  * Let's exchange the authorization_code with access token
  */
 try {
@@ -198,7 +198,7 @@ composer test
 
 ## Support
 
-The team is always here to help you. Happen to face an issue? Want to report a bug? You can submit one here on Github using the [Issue Tracker](https://github.com/SallaApp/Salla-CLI/issues/new). If you still have any questions, please contact us via the [Telegram Bot](https://t.me/SallaSupportBot) or join in the Global Developer Community on [Telegram](https://t.me/salladev).
+The team is always here to help you. Happen to face an issue? Want to report a bug? You can submit one here on GitHub using the [Issue Tracker](https://github.com/SallaApp/Salla-CLI/issues/new). If you still have any questions, please contact us by joining the Global Developer Community on [Telegram](https://t.me/salladev) or via the [Support Email](mailto:support@salla.dev).
 
 ## Contributing
 
