@@ -152,7 +152,7 @@ class Salla extends AbstractProvider
             $token = $token->getToken();
         }
 
-        $request = $this->getAuthenticatedRequest($method, $url, $token);
+        $request = $this->getAuthenticatedRequest($method, $url, $token, $options);
 
         return $this->getParsedResponse($request);
     }
