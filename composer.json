@@ -40,6 +40,13 @@
             "Salla\\OAuth2\\Client\\Test\\": "test/src/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Salla\\OAuth2\\Client\\Provider\\SallaServiceProvider"
+            ]
+        }
+    },
     "scripts": {
         "test": "phpunit",
         "check": "phpcs src --standard=psr2 -sp"
