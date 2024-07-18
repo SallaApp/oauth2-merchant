@@ -1,12 +1,5 @@
 name: Lint Branch
-on:
-    pull_request_target:
-        types:
-            - opened
-            - edited
-            - synchronize
-            - labeled
-            - unlabeled
+on: pull_request
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
