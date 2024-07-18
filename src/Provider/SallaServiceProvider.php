@@ -24,6 +24,6 @@ class SallaServiceProvider extends ServiceProvider
             __DIR__ . '/../../config/salla-oauth.php' => config_path('salla-oauth.php')
         ], 'salla-oauth');
 
-        app('router')->aliasMiddleware('salla.auth', \Salla\OAuth2\Client\Middleware\UserInfoMiddleware::class);
+        app('router')->aliasMiddleware('salla.OauthData', \Salla\OAuth2\Client\Middleware\UserInfoMiddleware::class);
     }
 }
