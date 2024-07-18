@@ -12,16 +12,9 @@ class Salla extends AbstractProvider
 {
     use BearerAuthorizationTrait;
 
-    protected $base_url;
+    protected $base_url = 'https://accounts.salla.sa';
 
     protected $headers = [];
-
-
-    public function __construct(array $options = [], array $collaborators = [], $base_url = 'https://accounts.salla.sa')
-    {
-        parent::__construct($options, $collaborators);
-        $this->base_url = $base_url;
-    }
 
     /**
      * Get authorization url to begin OAuth flow
@@ -167,7 +160,7 @@ class Salla extends AbstractProvider
     /**
      * Returns the default headers used by this provider.
      *
-     * Typically this is used to set 'Accept' or 'Content-Type' headers.
+     * Typically, this is used to set 'Accept' or 'Content-Type' headers.
      *
      * @return array
      */
