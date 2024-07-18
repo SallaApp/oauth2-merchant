@@ -210,6 +210,28 @@ class SallaUser implements ResourceOwnerInterface
     }
 
     /**
+     * Get token expiration
+     *
+     * @return \DateTime
+     * @throws Exception
+     */
+    public function getExpiredAt()
+    {
+        return  (new \DateTime())->setTimestamp($this->getResponseValue('data.context.exp'));
+    }
+
+    /**
+     * Get token scopes
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function getScope()
+    {
+        return  $this->getResponseValue('data.context.scope');
+    }
+
+    /**
      * Get user data as an array.
      *
      * @return array
@@ -219,7 +241,7 @@ class SallaUser implements ResourceOwnerInterface
     {
         try {
             return $this->response['data'];
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             throw new Exception('User data not found');
         }
     }

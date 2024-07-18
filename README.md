@@ -189,6 +189,59 @@ $token = $provider->getAccessToken('refresh_token', ['refresh_token' => $refresh
 
 ```
 
+## Using Salla OAuth2 Inside Laravel
+
+You can seamlessly integrate Salla OAuth2 within Laravel using the facade helper provided by the package. Here's how you can do it:
+
+First, use the facade helper in your Laravel project:
+
+```php
+use \Salla\OAuth2\Client\Facade\SallaOauth;
+
+// Generate the authorization URL with the required scope
+$authUrl = SallaOauth::getAuthorizationUrl([
+    'scope' => 'offline_access',
+    // Important: Set this value to 'offline_access' to generate a refresh token
+]);
+
+// Retrieve the access token using the authorization code
+$token = SallaOauth::getAccessToken('authorization_code', [
+  'code' => request()->get('code')
+]);
+```
+
+To configure the OAuth2 service, set the necessary environment variables in your `.env` file:
+
+```dotenv
+SALLA_OAUTH_CLIENT_ID=""
+SALLA_OAUTH_CLIENT_SECRET=""
+SALLA_OAUTH_CLIENT_REDIRECT_URI=""
+```
+
+These settings ensure that your Laravel application can properly communicate with the Salla OAuth2 service, allowing you to handle authentication and retrieve access tokens efficiently.
+
+## Using Salla OAuth2 as a Laravel Guard
+
+When integrating Salla OAuth2 for authentication, you may need to validate the merchant's access token and retrieve user information during a request.
+
+To achieve this, add the `\Salla\OAuth2\Client\Http\OauthMiddleware` middleware to the routes you wish to protect. This middleware ensures that a user is logged in via Salla OAuth2.
+
+However, note that this middleware only verifies user authentication. Additional authorization checks must be implemented separately as needed. The package conveniently stores the resource owner information as a request attribute, facilitating further authorization.
+
+After adding the middleware to your route, you can access the current authenticated user using the following code:
+
+```php
+auth()->guard('salla-oauth');
+// To check if a user is authenticated:
+auth()->guard('salla-oauth')->check();
+// To get the authenticated user's ID:
+auth()->guard('salla-oauth')->id();
+// To get the merchant information of the authenticated user:
+auth()->guard('salla-oauth')->merchant();
+```
+
+By leveraging this middleware, you ensure secure access to your routes while maintaining flexibility for additional authorization requirements.
+
 ## Testing
 
 ```bash

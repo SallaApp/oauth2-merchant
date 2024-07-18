@@ -23,7 +23,7 @@ class Salla extends AbstractProvider
      */
     public function getBaseAuthorizationUrl()
     {
-        return $this->base_url.'/oauth2/auth';
+        return $this->base_url . '/oauth2/auth';
     }
 
     /**
@@ -35,7 +35,7 @@ class Salla extends AbstractProvider
      */
     public function getBaseAccessTokenUrl(array $params)
     {
-        return $this->base_url.'/oauth2/token';
+        return $this->base_url . '/oauth2/token';
     }
 
     /**
@@ -47,7 +47,7 @@ class Salla extends AbstractProvider
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return $this->base_url.'/oauth2/user/info';
+        return $this->base_url . '/oauth2/user/info';
     }
 
     /**
@@ -160,7 +160,7 @@ class Salla extends AbstractProvider
     /**
      * Returns the default headers used by this provider.
      *
-     * Typically this is used to set 'Accept' or 'Content-Type' headers.
+     * Typically, this is used to set 'Accept' or 'Content-Type' headers.
      *
      * @return array
      */

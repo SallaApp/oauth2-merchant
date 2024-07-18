@@ -1,0 +1,76 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    name: Test PHP ${{ matrix.php-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: ['8.1', '8.2']
+
+    services:
+      redis:
+        image: bitnami/redis:6.2.4-debian-10-r35
+        ports:
+          - 6379:6379
+        env:
+          ALLOW_EMPTY_PASSWORD: 'yes'
+        options: >-
+          --health-cmd "redis-cli -p 6379 ping"
+          --health-start-period 5s
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: php-actions/composer@v6
+        with:
+          php_version: ${{ matrix.php-version }}
+          php_extensions: "redis-5.3.7"
+
+      - name: PHPUnit Tests
+        uses: php-actions/phpunit@v3
+        with:
+          version: 9.5.26
+          php_version: ${{ matrix.php-version }}
+          php_extensions: "xdebug redis-5.3.7"
+          bootstrap: vendor/autoload.php
+          configuration: phpunit.xml
+          coverage_clover: "coverage/clover.xml"
+          args: --coverage-text
+        env:
+          XDEBUG_MODE: coverage
+          REDIS_HOST: 127.0.0.1
+          REDIS_PORT: 6379
+
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_API_TOKEN }}
+          coverage-reports: "coverage/clover.xml"
+
+      - name: Dump docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v2
+
+
+  unit-test-ready:
+    needs: [ test ]
+    runs-on: ubuntu-latest
+    name: "Testing Ready"
+    steps:
+      - name: All tests passed
+        run: echo "All matrix jobs succeeded"
