@@ -44,7 +44,10 @@
         "laravel": {
             "providers": [
                 "Salla\\OAuth2\\Client\\ServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "SallaOauth": "Salla\\OAuth2\\Client\\Facade\\SallaOauth"
+            }
         }
     },
     "scripts": {
