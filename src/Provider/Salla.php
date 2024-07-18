@@ -12,9 +12,16 @@ class Salla extends AbstractProvider
 {
     use BearerAuthorizationTrait;
 
-    protected $base_url = 'https://accounts.salla.sa';
+    protected $base_url;
 
     protected $headers = [];
+
+
+    public function __construct(array $options = [], array $collaborators = [], $base_url = 'https://accounts.salla.sa')
+    {
+        parent::__construct($options, $collaborators);
+        $this->base_url = $base_url;
+    }
 
     /**
      * Get authorization url to begin OAuth flow
@@ -23,7 +30,7 @@ class Salla extends AbstractProvider
      */
     public function getBaseAuthorizationUrl()
     {
-        return $this->base_url.'/oauth2/auth';
+        return $this->base_url . '/oauth2/auth';
     }
 
     /**
@@ -35,7 +42,7 @@ class Salla extends AbstractProvider
      */
     public function getBaseAccessTokenUrl(array $params)
     {
-        return $this->base_url.'/oauth2/token';
+        return $this->base_url . '/oauth2/token';
     }
 
     /**
@@ -47,7 +54,7 @@ class Salla extends AbstractProvider
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return $this->base_url.'/oauth2/user/info';
+        return $this->base_url . '/oauth2/user/info';
     }
 
     /**
