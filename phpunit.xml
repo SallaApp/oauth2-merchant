@@ -9,6 +9,11 @@
          processIsolation="false"
          stopOnFailure="false"
 >
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src/</directory>
+        </include>
+    </coverage>
     <testsuites>
         <testsuite name="all">
             <directory>./test</directory>
