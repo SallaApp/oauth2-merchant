@@ -1,6 +1,6 @@
 <?php
 
-namespace Salla\OAuth2\Client\Middleware;
+namespace Salla\OAuth2\Middleware;
 
 use Closure;
 use Salla\OAuth2\Client\Provider\Salla;
@@ -8,23 +8,13 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use League\OAuth2\Client\Token\AccessToken;
 
-class UserInfoMiddleware
+class OauthMiddleware
 {
-    protected $salla;
-
-    public function __construct(Salla $salla)
+    public function handle($request, Closure $next, string $scope = null)
     {
-        $this->salla = $salla;
-    }
+        $bearerToken = $request->bearerToken();
 
-    public function handle($request, Closure $next)
-    {
-        /**
-         * @var ApiToken
-         */
-        $bearerToken = $request->header('X-API-KEY', $request->bearerToken());
-
-        if (!$bearerToken) {
+        if (empty($bearerToken)) {
             return response()->json(['error' => 'please provide a valid API Key'], 401);
         }
 
