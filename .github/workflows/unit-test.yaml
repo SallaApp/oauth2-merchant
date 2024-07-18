@@ -10,6 +10,7 @@ on:
 jobs:
   test:
     name: Test PHP ${{ matrix.php-version }}
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
@@ -68,8 +69,7 @@ jobs:
 
   unit-test-ready:
     needs: [ test ]
-    runs-on:
-      group: default
+    runs-on: ubuntu-latest
     name: "Testing Ready"
     steps:
       - name: All tests passed
