@@ -14,7 +14,7 @@ class OauthMiddleware
 
     private ?ResourceOwnerInterface $user = null;
 
-    
+
     public function handle($request, Closure $next, string $scope = null)
     {
         $token = $request->bearerToken();
@@ -44,7 +44,8 @@ class OauthMiddleware
             abort(401, 'Unauthorized Access');
         }
 
-        // todo :: check the scopes
+        // todo :: implement check the scopes
+        // todo:: $this->user->getScope()
 
         $exception_at = now()->diffInSeconds($this->user->getExpiredAt());
 

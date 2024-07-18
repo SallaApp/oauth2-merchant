@@ -210,7 +210,7 @@ class SallaUser implements ResourceOwnerInterface
     }
 
     /**
-     * Get store created at.
+     * Get token expiration
      *
      * @return \DateTime
      * @throws Exception
@@ -218,6 +218,17 @@ class SallaUser implements ResourceOwnerInterface
     public function getExpiredAt()
     {
         return  (new \DateTime())->setTimestamp($this->getResponseValue('data.context.exp'));
+    }
+
+    /**
+     * Get token scopes
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function getScope()
+    {
+        return  $this->getResponseValue('data.context.scope');
     }
 
     /**
