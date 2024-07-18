@@ -69,7 +69,7 @@ class SallaUserTest extends TestCase
         $this->assertEquals('11', $user->getStoreTaxNumber());
         $this->assertEquals('22', $user->getStoreCommercialNumber());
         $this->assertEquals('orders.read products.read', $user->getScope());
-        $this->assertEquals('1721326955', $user->getExpiredAt());
+        $this->assertEquals(1721326955, $user->getExpiredAt()->getTimestamp());
         $this->assertEquals( '2018-04-28 17:46:25', $user->getStoreCreatedAt()->format('Y-m-d H:i:s'));
     }
 
