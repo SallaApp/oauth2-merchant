@@ -38,8 +38,16 @@ class SallaUserTest extends TestCase
                     'store_location'=>'mock_location',
                     'plan'=>'mock_plan',
                     'status'=>'mock_status',
+                    'domain' => 'test.store',
+                    'tax_number' => '11',
+                    'commercial_number' => '22',
                     'created_at'=>'2018-04-28 17:46:25',
                 ],
+                'context' => [
+                    'app' => '123',
+                    'scope' => 'orders.read products.read',
+                    'exp' => 1721326955
+                ]
         ]]);
 
         $this->assertEquals(12345, $user->getId());
@@ -57,6 +65,11 @@ class SallaUserTest extends TestCase
         $this->assertEquals('mock_location', $user->getStoreLocation());
         $this->assertEquals('mock_plan', $user->getStorePlan());
         $this->assertEquals('mock_status', $user->getStoreStatus());
+        $this->assertEquals('test.store', $user->getStoreDomain());
+        $this->assertEquals('11', $user->getStoreTaxNumber());
+        $this->assertEquals('22', $user->getStoreCommercialNumber());
+        $this->assertEquals('orders.read products.read', $user->getScope());
+        $this->assertEquals('1721326955', $user->getExpiredAt());
         $this->assertEquals( '2018-04-28 17:46:25', $user->getStoreCreatedAt()->format('Y-m-d H:i:s'));
     }
 
