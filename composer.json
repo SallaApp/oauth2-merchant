@@ -43,7 +43,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Salla\\OAuth2\\Client\\Provider\\SallaServiceProvider"
+                "Salla\\OAuth2\\Client\\Provider\\SallaAuthServiceProvider"
             ]
         }
     },

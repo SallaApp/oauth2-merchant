@@ -28,7 +28,7 @@ class UserInfoMiddleware
             return response()->json(['error' => 'please provide a valid API Key'], 401);
         }
 
-        $cacheKey = 'salla_user_' . $bearerToken;
+        $cacheKey = 'salla_user_' . substr($bearerToken, -8);
         $cachedUserData = Cache::get($cacheKey);
 
         if (!$cachedUserData) {
@@ -47,7 +47,7 @@ class UserInfoMiddleware
             Cache::put($cacheKey, $cachedUserData, now()->addMinutes(30)); // TTL is set to 30 minutes
         }
 
-        request()->attributes->set('salla_user', $cachedUserData['data']);
+        request()->attributes->set('app_user_data', $cachedUserData['data']);
 
         return $next($request);
     }
