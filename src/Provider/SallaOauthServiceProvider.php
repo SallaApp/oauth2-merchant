@@ -4,7 +4,7 @@ namespace Salla\OAuth2\Client\Provider;
 
 use Illuminate\Support\ServiceProvider;
 
-class SallaAuthServiceProvider extends ServiceProvider
+class SallaOauthServiceProvider extends ServiceProvider
 {
 
 
@@ -26,8 +26,8 @@ class SallaAuthServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../../config/sallaOauth.php' => config_path('sallaOauth.php')
-        ], 'salla-oauth');
+        ], 'sallaOauth');
 
-        app('router')->aliasMiddleware('user.data', \Salla\OAuth2\Client\Middleware\UserInfoMiddleware::class);
+        app('router')->aliasMiddleware('user.data', \Salla\OAuth2\Middleware\OauthMiddleware::class);
     }
 }

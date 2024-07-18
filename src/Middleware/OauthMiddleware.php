@@ -14,18 +14,18 @@ class OauthMiddleware
     {
         $bearerToken = $request->bearerToken();
 
-        if (empty($bearerToken)) {
-            return response()->json(['error' => 'please provide a valid API Key'], 401);
+        if (empty($bearerToken) || !is_string($bearerToken)) {
+            return response()->json(['error' => 'Please provide a valid API Key'], 401);
         }
 
-        $cacheKey = 'salla_user_' . substr($bearerToken, -8);
+        $cacheKey = 'salla_Oauth_' . substr($bearerToken, -8);
         $cachedUserData = Cache::get($cacheKey);
 
         if (!$cachedUserData) {
 
             $tokenObject = new AccessToken(['access_token' => $bearerToken]);
 
-            $resourceOwnerDetailsUrl = $this->salla->getResourceOwnerDetailsUrl($tokenObject);
+            $resourceOwnerDetailsUrl = app('SallaOauth')->getResourceOwnerDetailsUrl($tokenObject);
 
             $response = Http::withToken($bearerToken)->get($resourceOwnerDetailsUrl);
 
