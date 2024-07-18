@@ -11,8 +11,10 @@ use Salla\OAuth2\Client\Provider\SallaUser;
 
 class OauthMiddleware
 {
+
     private ?ResourceOwnerInterface $user = null;
 
+    
     public function handle($request, Closure $next, string $scope = null)
     {
         $token = $request->bearerToken();
