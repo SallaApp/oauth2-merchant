@@ -2,9 +2,9 @@
 
 namespace Salla\OAuth2\Client;
 
+use Illuminate\Auth\RequestGuard;
 use Illuminate\Support\Facades\Auth;
 use Salla\OAuth2\Client\Auth\AuthRequest;
-use Salla\OAuth2\Client\Auth\Guard;
 use Salla\OAuth2\Client\Contracts\SallaOauth;
 use Salla\OAuth2\Client\Http\OauthMiddleware;
 use Salla\OAuth2\Client\Provider\Salla;
@@ -37,7 +37,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         app('router')->aliasMiddleware('salla.oauth', OauthMiddleware::class);
 
         Auth::extend('salla-oauth', function () {
-            $guard = new Guard($this->app->make(AuthRequest::class), $this->app['request']);
+            $guard = new RequestGuard($this->app->make(AuthRequest::class), $this->app['request']);
 
             $this->app->refresh('request', $guard, 'setRequest');
 
