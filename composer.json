@@ -20,12 +20,12 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": "^8.1",
+        "php": "^8.1|^8.3",
         "league/oauth2-client": "^2.0",
-        "illuminate/support": "^9.0|^10.0"
+        "illuminate/support": "^9.0|^10.0|^11.0"
     },
     "require-dev": {
-        "laravel/framework": ">=8.0",
+        "laravel/framework": "^9.0|^10.0|^11.0",
         "orchestra/testbench": "^6.0|^7.0|^8.0",
         "phpunit/phpunit": "^8.0|^9.0",
         "squizlabs/php_codesniffer": "^2.0 || ^3.0"
