@@ -15,13 +15,9 @@ class OauthMiddlewareTest extends TestCase
             return 'hello '. auth()->guard('salla-oauth')->user()->getAuthIdentifier();
         })->middleware(OauthMiddleware::class);
 
-        $app['router']->get('hello/user_allowed_scope')->uses(function () {
+        $app['router']->get('hello/user-order-read-scope')->uses(function () {
             return 'hello '. auth()->guard('salla-oauth')->user()->getAuthIdentifier();
         })->middleware('salla.oauth:orders.read');
-
-        $app['router']->get('hello/user_not_allowed_scope')->uses(function () {
-            return 'hello '. auth()->guard('salla-oauth')->user()->getAuthIdentifier();
-        })->middleware('salla.oauth:orders.write');
 
         $app['router']->get('hello/guest')->name('auth.guest')->uses(function () {
             return 'hello guest';
@@ -146,7 +142,7 @@ class OauthMiddlewareTest extends TestCase
             ->with($this->equalTo($token))
             ->willReturn($user);
 
-        $response = $this->get('hello/user_allowed_scope', [
+        $response = $this->get('hello/user-order-read-scope', [
             'Authorization' => 'Bearer foobar'
         ]);
         $response->assertStatus(200)->assertSeeText('hello 12345');
@@ -184,7 +180,7 @@ class OauthMiddlewareTest extends TestCase
                 ],
                 'context' => [
                     'app' => '123',
-                    'scope' => 'orders.read products.read',
+                    'scope' => 'customers.read products.read',
                     'exp' => 1721326955
                 ]
             ]
@@ -200,7 +196,7 @@ class OauthMiddlewareTest extends TestCase
             ->with($this->equalTo($token))
             ->willReturn($user);
 
-        $response = $this->get('hello/user_not_allowed_scope', [
+        $response = $this->get('hello/user-order-read-scope', [
             'Authorization' => 'Bearer foobar'
         ]);
         $response->assertStatus(401)->assertSeeText('Unauthorized');
