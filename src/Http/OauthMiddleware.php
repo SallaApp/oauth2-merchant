@@ -45,7 +45,7 @@ class OauthMiddleware
         }
 
         if(!is_null($scope) && !collect(explode(' ', $this->user->getScope()))->contains($scope)){
-            abort(401, 'Scope not allowed');
+            abort(401, 'Unauthorized Access (The scope not allowed)');
         }
 
         $exception_at = now()->diffInSeconds($this->user->getExpiredAt());
