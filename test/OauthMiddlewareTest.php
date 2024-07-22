@@ -15,6 +15,14 @@ class OauthMiddlewareTest extends TestCase
             return 'hello '. auth()->guard('salla-oauth')->user()->getAuthIdentifier();
         })->middleware(OauthMiddleware::class);
 
+        $app['router']->get('hello/user_allowed_scope')->uses(function () {
+            return 'hello '. auth()->guard('salla-oauth')->user()->getAuthIdentifier();
+        })->middleware('salla.oauth:orders.read');
+
+        $app['router']->get('hello/user_not_allowed_scope')->uses(function () {
+            return 'hello '. auth()->guard('salla-oauth')->user()->getAuthIdentifier();
+        })->middleware('salla.oauth:orders.write');
+
         $app['router']->get('hello/guest')->name('auth.guest')->uses(function () {
             return 'hello guest';
         });
@@ -88,5 +96,113 @@ class OauthMiddlewareTest extends TestCase
         $authGuard = auth()->guard('salla-oauth');
         $this->assertTrue($authGuard->check());
         $this->assertSame($user['data']['id'], $authGuard->user()->getAuthIdentifier());
+    }
+
+    public function testCheckAllowedUserScope()
+    {
+        $this->app->singleton(SallaOauth::class, function ()  {
+            return $this->getMockBuilder(Salla::class)
+                ->disableOriginalConstructor()
+                ->onlyMethods(['fetchResourceOwnerDetails'])
+                ->getMock();
+        });
+
+        // Mock response
+        $user = [
+            'data' => [
+                'id' => '12345',
+                'name' => 'mock name',
+                'email' => 'mock.name@example.com',
+                'mobile' => '05000000',
+                'role' => 'user',
+                'created_at' => '2018-04-28 17:46:25',
+                'merchant' => [
+                    'id' => '11111',
+                    'owner_id' => '12345',
+                    'owner_name' => 'mock name',
+                    'username' => 'mock_name',
+                    'name' => 'mock name',
+                    'avatar' => 'mock_avatar',
+                    'store_location' => 'mock_location',
+                    'plan' => 'mock_plan',
+                    'status' => 'mock_status',
+                    'created_at' => '2018-04-28 17:46:25',
+                ],
+                'context' => [
+                    'app' => '123',
+                    'scope' => 'orders.read products.read',
+                    'exp' => 1721326955
+                ]
+            ]
+        ];
+
+        $token = new AccessToken([
+            'access_token' => 'foobar',
+        ]);
+
+        // Set up the expectation for fetchResourceOwnerDetails method
+        $this->app->make(SallaOauth::class)->expects($this->once())
+            ->method('fetchResourceOwnerDetails')
+            ->with($this->equalTo($token))
+            ->willReturn($user);
+
+        $response = $this->get('hello/user_allowed_scope', [
+            'Authorization' => 'Bearer foobar'
+        ]);
+        $response->assertStatus(200)->assertSeeText('hello 12345');
+    }
+
+    public function testCheckNotAllowedUserScope()
+    {
+        $this->app->singleton(SallaOauth::class, function ()  {
+            return $this->getMockBuilder(Salla::class)
+                ->disableOriginalConstructor()
+                ->onlyMethods(['fetchResourceOwnerDetails'])
+                ->getMock();
+        });
+
+        // Mock response
+        $user = [
+            'data' => [
+                'id' => '12345',
+                'name' => 'mock name',
+                'email' => 'mock.name@example.com',
+                'mobile' => '05000000',
+                'role' => 'user',
+                'created_at' => '2018-04-28 17:46:25',
+                'merchant' => [
+                    'id' => '11111',
+                    'owner_id' => '12345',
+                    'owner_name' => 'mock name',
+                    'username' => 'mock_name',
+                    'name' => 'mock name',
+                    'avatar' => 'mock_avatar',
+                    'store_location' => 'mock_location',
+                    'plan' => 'mock_plan',
+                    'status' => 'mock_status',
+                    'created_at' => '2018-04-28 17:46:25',
+                ],
+                'context' => [
+                    'app' => '123',
+                    'scope' => 'orders.read products.read',
+                    'exp' => 1721326955
+                ]
+            ]
+        ];
+
+        $token = new AccessToken([
+            'access_token' => 'foobar',
+        ]);
+
+        // Set up the expectation for fetchResourceOwnerDetails method
+        $this->app->make(SallaOauth::class)->expects($this->once())
+            ->method('fetchResourceOwnerDetails')
+            ->with($this->equalTo($token))
+            ->willReturn($user);
+
+        $response = $this->get('hello/user_not_allowed_scope', [
+            'Authorization' => 'Bearer foobar'
+        ]);
+        $response->assertStatus(401)->assertSeeText('Unauthorized');
     }
 }
