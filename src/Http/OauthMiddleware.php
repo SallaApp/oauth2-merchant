@@ -44,8 +44,9 @@ class OauthMiddleware
             abort(401, 'Unauthorized Access');
         }
 
-        // todo :: implement check the scopes
-        // todo:: $this->user->getScope()
+        if(!is_null($scope) && !collect(explode(' ', $this->user->getScope()))->contains($scope)){
+            abort(401, 'Unauthorized Access (The scope not allowed)');
+        }
 
         $exception_at = now()->diffInSeconds($this->user->getExpiredAt());
 
