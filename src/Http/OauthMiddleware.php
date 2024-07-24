@@ -50,7 +50,7 @@ class OauthMiddleware
 
         $exception_at = now()->diffInSeconds($this->user->getExpiredAt());
 
-        Cache::put($cacheKey, $this->user->toArray(), now()->addSeconds($exception_at));
+        Cache::put($cacheKey, ['data' => $this->user->toArray()], now()->addSeconds($exception_at));
 
         return $this->nextRequest($next, $request);
     }
