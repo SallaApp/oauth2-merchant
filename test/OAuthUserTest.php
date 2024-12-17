@@ -46,6 +46,12 @@ class OAuthUserTest extends TestCase
         $this->oauthUser->getAuthPassword();
     }
 
+    public function testGetAuthPasswordNameThrowsException()
+    {
+        $this->expectException(\BadMethodCallException::class);
+        $this->oauthUser->getAuthPasswordName();
+    }
+
     public function testGetRememberTokenThrowsException()
     {
         $this->expectException(\BadMethodCallException::class);
