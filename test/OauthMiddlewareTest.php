@@ -11,7 +11,6 @@ class OauthMiddlewareTest extends TestCase
 {
     private $userData;
     private $token;
-    private $mockSalla;
 
     protected function setUp(): void
     {
