@@ -15,7 +15,7 @@ class OauthMiddleware
     private ?ResourceOwnerInterface $user = null;
 
 
-    public function handle($request, Closure $next, string $scope = null)
+    public function handle($request, Closure $next, string ...$scopes)
     {
         $token = $request->bearerToken();
 
@@ -32,6 +32,8 @@ class OauthMiddleware
         }
 
         if ($this->user) {
+            $this->validateScopes($scopes);
+
             return $this->nextRequest($next, $request);
         }
 
@@ -44,15 +46,20 @@ class OauthMiddleware
             abort(401, 'Unauthorized Access');
         }
 
-        if(!is_null($scope) && !collect(explode(' ', $this->user->getScope()))->contains($scope)){
-            abort(401, 'Unauthorized Access (The scope not allowed)');
-        }
+        $this->validateScopes($scopes);
 
         $exception_at = now()->diffInSeconds($this->user->getExpiredAt());
 
         Cache::put($cacheKey, ['data' => $this->user->toArray()], now()->addSeconds($exception_at));
 
         return $this->nextRequest($next, $request);
+    }
+
+    private function validateScopes($scopes)
+    {
+        if (!empty($scopes) && collect(explode(' ', $this->user->getScope()))->intersect($scopes)->isEmpty()) {
+            abort(401, 'Unauthorized Access (The scope not allowed)');
+        }
     }
 
     public function nextRequest(Closure $next, $request): mixed
