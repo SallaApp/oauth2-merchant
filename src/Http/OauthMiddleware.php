@@ -25,7 +25,7 @@ class OauthMiddleware
 
         $cacheKey = config()->get('salla-oauth.cache-prefix') . '.' . $token;
 
-        $user = Cache::get($cacheKey);
+        $user = $this->cacheGet($cacheKey);
 
         if ($user) {
             $this->user = new SallaUser($user);
@@ -50,7 +50,7 @@ class OauthMiddleware
 
         $exception_at = now()->diffInSeconds($this->user->getExpiredAt());
 
-        Cache::put($cacheKey, ['data' => $this->user->toArray()], now()->addSeconds($exception_at));
+        $this->cachePut($cacheKey, ['data' => $this->user->toArray()], now()->addSeconds($exception_at));
 
         return $this->nextRequest($next, $request);
     }
@@ -67,5 +67,23 @@ class OauthMiddleware
         request()->attributes->set('salla.oauth.user', $this->user);
 
         return $next($request);
+    }
+
+    private function cacheGet(string $key): mixed
+    {
+        if (Cache::supportsTags()) {
+            return Cache::tags([config('salla-oauth.cache-tag', 'salla-oauth')])->get($key);
+        }
+
+        return Cache::get($key);
+    }
+
+    private function cachePut(string $key, mixed $value, \DateTimeInterface $ttl): bool
+    {
+        if (Cache::supportsTags()) {
+            return Cache::tags([config('salla-oauth.cache-tag', 'salla-oauth')])->put($key, $value, $ttl);
+        }
+
+        return Cache::put($key, $value, $ttl);
     }
 }
