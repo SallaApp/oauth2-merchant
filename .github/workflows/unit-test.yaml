@@ -18,7 +18,7 @@ jobs:
 
     services:
       redis:
-        image: bitnami/redis:6.2.4-debian-10-r35
+        image: bitnamilegacy/redis:6.2.4
         ports:
           - 6379:6379
         env:
