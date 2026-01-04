@@ -160,6 +160,7 @@ class OauthMiddlewareTest extends TestCase
     {
         // Use array cache which supports tags
         config(['cache.default' => 'array']);
+        config(['salla-oauth.cache-tag' => 'salla-oauth']);
         Cache::flush();
 
         $this->setupMockSalla();
