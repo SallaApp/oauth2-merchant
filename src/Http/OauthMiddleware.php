@@ -71,8 +71,8 @@ class OauthMiddleware
 
     private function cacheGet(string $key): mixed
     {
-        if (Cache::supportsTags()) {
-            return Cache::tags([config('salla-oauth.cache-tag', 'salla-oauth')])->get($key);
+        if (Cache::supportsTags() && config('salla-oauth.cache-tag')) {
+            return Cache::tags([config('salla-oauth.cache-tag')])->get($key);
         }
 
         return Cache::get($key);
@@ -80,8 +80,8 @@ class OauthMiddleware
 
     private function cachePut(string $key, mixed $value, \DateTimeInterface $ttl): bool
     {
-        if (Cache::supportsTags()) {
-            return Cache::tags([config('salla-oauth.cache-tag', 'salla-oauth')])->put($key, $value, $ttl);
+        if (Cache::supportsTags() && config('salla-oauth.cache-tag')) {
+            return Cache::tags([config('salla-oauth.cache-tag')])->put($key, $value, $ttl);
         }
 
         return Cache::put($key, $value, $ttl);
