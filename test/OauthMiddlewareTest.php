@@ -2,6 +2,7 @@
 
 namespace Salla\OAuth2\Client\Test;
 
+use Illuminate\Support\Facades\Cache;
 use League\OAuth2\Client\Token\AccessToken;
 use Salla\OAuth2\Client\Contracts\SallaOauth;
 use Salla\OAuth2\Client\Http\OauthMiddleware;
@@ -153,5 +154,81 @@ class OauthMiddlewareTest extends TestCase
 
         $response = $this->makeAuthRequest('hello/user-order-read-scope');
         $response->assertStatus(401);
+    }
+
+    public function testCacheUsesTagsWhenSupported()
+    {
+        // Use array cache which supports tags
+        config(['cache.default' => 'array']);
+        config(['salla-oauth.cache-tag' => 'salla-oauth']);
+        Cache::flush();
+
+        $this->setupMockSalla();
+
+        $response = $this->makeAuthRequest('hello/user');
+        $response->assertStatus(200)->assertSeeText('hello 12345');
+
+        // Verify cache was set with tags
+        $cacheKey = config('salla-oauth.cache-prefix') . '.foobar';
+        $cachedData = Cache::tags([config('salla-oauth.cache-tag', 'salla-oauth')])->get($cacheKey);
+
+        $this->assertNotNull($cachedData);
+        $this->assertArrayHasKey('data', $cachedData);
+    }
+
+    public function testCacheWorksWithoutTagsSupport()
+    {
+        // Use file cache which doesn't support tags
+        config(['cache.default' => 'file']);
+        Cache::flush();
+
+        $this->setupMockSalla();
+
+        $response = $this->makeAuthRequest('hello/user');
+        $response->assertStatus(200)->assertSeeText('hello 12345');
+
+        // Verify cache was set without tags
+        $cacheKey = config('salla-oauth.cache-prefix') . '.foobar';
+        $cachedData = Cache::get($cacheKey);
+
+        $this->assertNotNull($cachedData);
+        $this->assertArrayHasKey('data', $cachedData);
+    }
+
+    public function testCacheTagConfigIsUsed()
+    {
+        // Use array cache with custom tag
+        config(['cache.default' => 'array']);
+        config(['salla-oauth.cache-tag' => 'custom-oauth-tag']);
+        Cache::flush();
+
+        $this->setupMockSalla();
+
+        $response = $this->makeAuthRequest('hello/user');
+        $response->assertStatus(200)->assertSeeText('hello 12345');
+
+        // Verify cache uses custom tag
+        $cacheKey = config('salla-oauth.cache-prefix') . '.foobar';
+        $cachedData = Cache::tags(['custom-oauth-tag'])->get($cacheKey);
+
+        $this->assertNotNull($cachedData);
+    }
+
+    public function testCachedUserWithTagsSkipsApiCall()
+    {
+        // Use array cache which supports tags
+        config(['cache.default' => 'array']);
+        Cache::flush();
+
+        $this->setupMockSalla();
+
+        // First request - should call API and cache
+        $response = $this->makeAuthRequest('hello/user');
+        $response->assertStatus(200)->assertSeeText('hello 12345');
+
+        // Second request - should use cache, not call API again
+        // (setupMockSalla expects exactly once, so if this fails, it means API was called twice)
+        $response = $this->makeAuthRequest('hello/user');
+        $response->assertStatus(200)->assertSeeText('hello 12345');
     }
 }
