@@ -48,7 +48,8 @@ class OauthMiddleware
 
         $this->validateScopes($scopes);
 
-        $exception_at = now()->diffInSeconds($this->user->getExpiredAt());
+        // Carbon 3: diffInSeconds returns a signed float; force non-negative int for cache TTL.
+        $exception_at = (int) abs(now()->diffInSeconds($this->user->getExpiredAt()));
 
         $this->cachePut($cacheKey, ['data' => $this->user->toArray()], now()->addSeconds($exception_at));
 
