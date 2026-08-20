@@ -48,7 +48,12 @@ class OauthMiddleware
 
         $this->validateScopes($scopes);
 
-        $exception_at = now()->diffInSeconds($this->user->getExpiredAt());
+        // Carbon 3: diffInSeconds is signed; an already-expired token yields <= 0 — reject it.
+        $exception_at = (int) now()->diffInSeconds($this->user->getExpiredAt());
+
+        if ($exception_at <= 0) {
+            abort(401, 'Unauthorized Access');
+        }
 
         $this->cachePut($cacheKey, ['data' => $this->user->toArray()], now()->addSeconds($exception_at));
 
