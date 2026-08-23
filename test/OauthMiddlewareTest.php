@@ -102,6 +102,17 @@ class OauthMiddlewareTest extends TestCase
         $response->assertStatus(401);
     }
 
+    public function testRejectsExpiredToken()
+    {
+        $userData = $this->userData;
+        $userData['data']['context']['exp'] = time() - 3600; // already expired
+
+        $this->setupMockSalla($userData);
+
+        $response = $this->makeAuthRequest('hello/user');
+        $response->assertStatus(401);
+    }
+
     public function testAddsUserinfoToRequest()
     {
         $this->setupMockSalla();
