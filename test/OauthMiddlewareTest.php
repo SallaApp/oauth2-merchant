@@ -42,7 +42,7 @@ class OauthMiddlewareTest extends TestCase
                 'context' => [
                     'app' => '123',
                     'scope' => 'orders.read products.read',
-                    'exp' => 1721326955
+                    'exp' => time() + 3600
                 ]
             ]
         ];
@@ -146,7 +146,8 @@ class OauthMiddlewareTest extends TestCase
     public function testCachedUser()
     {
         $userData = $this->userData;
-        $userData['data']['context'] = null;
+        // Keep a valid (future) exp so the user is cached; drop the scope so the scoped route is denied.
+        $userData['data']['context']['scope'] = '';
         $this->setupMockSalla($userData);
 
         $response = $this->makeAuthRequest('hello/user');
