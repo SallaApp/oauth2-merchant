@@ -48,8 +48,9 @@ class OauthMiddleware
 
         $this->validateScopes($scopes);
 
-        // Carbon 3: diffInSeconds is signed; an already-expired token yields <= 0 — reject it.
-        $exception_at = (int) now()->diffInSeconds($this->user->getExpiredAt());
+        // diffInSeconds defaults to absolute on Carbon 2 (Laravel 9/10); pass false so an expired
+        // token yields a negative value (<= 0) and is rejected consistently on Carbon 2 and 3.
+        $exception_at = (int) now()->diffInSeconds($this->user->getExpiredAt(), false);
 
         if ($exception_at <= 0) {
             abort(401, 'Unauthorized Access');
