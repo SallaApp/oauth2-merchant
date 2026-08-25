@@ -52,10 +52,6 @@ class OauthMiddleware
         // diff so an already-expired token yields <= 0 and is rejected (consistent on Carbon 2/3).
         $exception_at = (int) now()->diffInSeconds($this->user->getExpiredAt(), false);
 
-        if ($exception_at <= 0) {
-            abort(401, 'Unauthorized Access');
-        }
-
         $this->cachePut($cacheKey, ['data' => $this->user->toArray()], now()->addSeconds($exception_at));
 
         return $this->nextRequest($next, $request);
