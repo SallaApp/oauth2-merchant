@@ -42,7 +42,7 @@ class OauthMiddlewareTest extends TestCase
                 'context' => [
                     'app' => '123',
                     'scope' => 'orders.read products.read',
-                    'exp' => 1721326955
+                    'exp' => time() + 3600
                 ]
             ]
         ];
@@ -102,6 +102,17 @@ class OauthMiddlewareTest extends TestCase
         $response->assertStatus(401);
     }
 
+    public function testRejectsExpiredToken()
+    {
+        $userData = $this->userData;
+        $userData['data']['context']['exp'] = time() - 3600; // already expired
+
+        $this->setupMockSalla($userData);
+
+        $response = $this->makeAuthRequest('hello/user');
+        $response->assertStatus(401);
+    }
+
     public function testAddsUserinfoToRequest()
     {
         $this->setupMockSalla();
@@ -146,7 +157,8 @@ class OauthMiddlewareTest extends TestCase
     public function testCachedUser()
     {
         $userData = $this->userData;
-        $userData['data']['context'] = null;
+        // Keep a valid (future) exp so the user is cached; drop the scope so the scoped route is denied.
+        $userData['data']['context']['scope'] = '';
         $this->setupMockSalla($userData);
 
         $response = $this->makeAuthRequest('hello/user');
