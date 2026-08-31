@@ -52,9 +52,7 @@ class OauthMiddleware
         // diff so an already-expired token yields <= 0 (consistent on Carbon 2/3).
         $exception_at = (int) now()->diffInSeconds($this->user->getExpiredAt(), false);
 
-        if ($exception_at > 0) {
-            $this->cachePut($cacheKey, ['data' => $this->user->toArray()], now()->addSeconds($exception_at));
-        }
+        $this->cachePut($cacheKey, ['data' => $this->user->toArray()], now()->addSeconds($exception_at));
 
         return $this->nextRequest($next, $request);
     }
