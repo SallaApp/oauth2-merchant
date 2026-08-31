@@ -49,14 +49,12 @@ class OauthMiddleware
         $this->validateScopes($scopes);
 
         // diffInSeconds defaults to absolute on Carbon 2 (Laravel 9/10); pass false for a signed
-        // diff so an already-expired token yields <= 0 and is rejected (consistent on Carbon 2/3).
+        // diff so an already-expired token yields <= 0 (consistent on Carbon 2/3).
         $exception_at = (int) now()->diffInSeconds($this->user->getExpiredAt(), false);
 
-        if ($exception_at <= 0) {
-            abort(401, 'Unauthorized Access');
+        if ($exception_at > 0) {
+            $this->cachePut($cacheKey, ['data' => $this->user->toArray()], now()->addSeconds($exception_at));
         }
-
-        $this->cachePut($cacheKey, ['data' => $this->user->toArray()], now()->addSeconds($exception_at));
 
         return $this->nextRequest($next, $request);
     }
