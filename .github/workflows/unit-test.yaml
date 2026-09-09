@@ -55,6 +55,7 @@ jobs:
           php_extensions: "xdebug redis-5.3.7"
           bootstrap: vendor/autoload.php
           configuration: phpunit.xml
+          test_suffix: Test.php
           coverage_clover: "coverage/clover.xml"
           args: --coverage-text
         env:
