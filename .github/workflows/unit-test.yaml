@@ -14,7 +14,13 @@ jobs:
 
     strategy:
       matrix:
-        php-version: ['8.1', '8.2', '8.3']
+        include:
+          - php-version: '8.1'
+            phpunit-version: '10.5'
+          - php-version: '8.2'
+            phpunit-version: '11.5'
+          - php-version: '8.3'
+            phpunit-version: '11.5'
 
     services:
       redis:
@@ -44,11 +50,12 @@ jobs:
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v3
         with:
-          version: 9.5.26
+          version: ${{ matrix.phpunit-version }}
           php_version: ${{ matrix.php-version }}
           php_extensions: "xdebug redis-5.3.7"
           bootstrap: vendor/autoload.php
           configuration: phpunit.xml
+          test_suffix: Test.php
           coverage_clover: "coverage/clover.xml"
           args: --coverage-text
         env:
