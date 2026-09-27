@@ -14,13 +14,16 @@ jobs:
 
     strategy:
       matrix:
+        # PHPUnit is pinned per PHP version to the highest release that runs on
+        # it, matching what Composer resolves for the same leg: PHPUnit 11 needs
+        # PHP 8.2 and PHPUnit 12 needs PHP 8.3, which is also the Laravel 13 leg.
         include:
           - php-version: '8.1'
-            phpunit-version: '10.5'
+            phpunit-version: '10.5.64'
           - php-version: '8.2'
-            phpunit-version: '11.5'
+            phpunit-version: '11.5.46'
           - php-version: '8.3'
-            phpunit-version: '11.5'
+            phpunit-version: '12.5.35'
 
     services:
       redis:
