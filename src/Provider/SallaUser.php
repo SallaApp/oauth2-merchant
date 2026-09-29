@@ -174,7 +174,7 @@ class SallaUser implements ResourceOwnerInterface
      *
      * @return bool
      */
-    public function isStoreVerified()
+    public function isMerchantVerified()
     {
         return (bool) $this->getResponseValue('data.merchant.has_verified');
     }
