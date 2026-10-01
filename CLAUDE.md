@@ -54,12 +54,12 @@ Redis service, then uploads coverage to Codacy. It runs on every PR and on `mast
 - Default branch is **`master`** (not `main`). Branch `feature/PROJ-123-desc`; PR title `feat(scope): desc` (checked
   by `lint-pr.yaml`); Jira link in the PR body; fill `.github/PULL_REQUEST_TEMPLATE/pull_request_template.md`.
 - Releases are manual semver tags (currently `3.0.x`); breaking changes need a major tag.
-- PSR-2/PSR-12 via `composer check`.
+- Lint standard is **PSR-2 only** (`composer check` = `phpcs src --standard=psr2`, no phpcs config file). CI does **not** run it (`unit-test.yaml` only runs PHPUnit), so run `composer check` locally before pushing.
 - New Laravel versions are added by widening `illuminate/support`, `orchestra/testbench`, and the CI matrix together
   (see `feat(CPD-31905): Support Laravel 13`).
 - Middleware/guard changes need tests in `test/OauthMiddlewareTest.php`; external calls are mocked by stubbing
   `Salla::fetchResourceOwnerDetails` (see `setupMockSalla()`).
-- See workspace `CLAUDE.md` and `packages/CLAUDE.md` for global branch/PR/Jira/secrets rules.
+- Branch prefixes are `feature/`, `bugfix/`, `hotfix/`, or `test/` plus the Jira key. The PR title scope is mandatory, PRs open as drafts, and secrets live in the consumer's env/Doppler, never in git.
 
 ## Gotchas
 - **Expired tokens are accepted:** since `fix(CPD-31891)` (#43) the middleware no longer rejects a token whose
@@ -70,7 +70,7 @@ Redis service, then uploads coverage to Codacy. It runs on every PR and on `mast
 - **Scopes are any-of:** `salla.oauth:orders.read,orders.read_write` passes with either scope; no-arg middleware skips scope checks.
 - **Auth ≠ authorization:** the guard only proves a valid Salla merchant token. Store/permission checks are the consumer's job.
 - **README drift:** it shows `auth()->guard('salla-oauth')->merchant()`, which doesn't exist on `RequestGuard`; use
-  `->user()->merchant` (magic `__get`) or `request()->attributes->get('salla.oauth.user')`. `CHANGELOG.md` stops at 1.0.0.
+  `auth()->guard('salla-oauth')->user()->merchant`, which returns the raw `data.merchant` **array** through `OAuthUser::__get`, so read it as `['id']`. Or read `request()->attributes->get('salla.oauth.user')`, which is the **`SallaUser` object**: use `->getStoreId()` and the other getters, or `->toArray()['merchant']`. The two values have different shapes, so don't mix their access styles. `CHANGELOG.md` stops at 1.0.0.
 - **Two scope separators:** authorization URLs join scopes with `,` (`getScopeSeparator`), while the token's
   `context.scope` is space-separated.
 - **Package name typo:** `salla/ouath2-merchant` — do not "fix" it in `composer.json`; every consumer requires that name.
