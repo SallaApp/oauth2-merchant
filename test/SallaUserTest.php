@@ -42,6 +42,7 @@ class SallaUserTest extends TestCase
                     'tax_number' => '11',
                     'commercial_number' => '22',
                     'created_at'=>'2018-04-28 17:46:25',
+                    'has_verified' => true,
                 ],
                 'context' => [
                     'app' => '123',
@@ -71,6 +72,53 @@ class SallaUserTest extends TestCase
         $this->assertEquals('orders.read products.read', $user->getScope());
         $this->assertEquals(1721326955, $user->getExpiredAt()->getTimestamp());
         $this->assertEquals( '2018-04-28 17:46:25', $user->getStoreCreatedAt()->format('Y-m-d H:i:s'));
+        $this->assertTrue($user->isMerchantVerified());
+    }
+
+    public function testMerchantVerifiedIsFalseWhenAbsent()
+    {
+        $user = new SallaUser([
+            'status'=> 200,
+            'success'=> true,
+            'data'=>[
+                'id' => '12345',
+                'name' => 'mock name',
+                'merchant'=>[
+                    'id'=>'11111',
+                ],
+        ]]);
+
+        $this->assertFalse($user->isMerchantVerified());
+    }
+
+    public function testMerchantVerifiedIsFalseWhenExplicitlyFalse()
+    {
+        $user = new SallaUser([
+            'status'=> 200,
+            'success'=> true,
+            'data'=>[
+                'id' => '12345',
+                'name' => 'mock name',
+                'merchant'=>[
+                    'id'=>'11111',
+                    'has_verified' => false,
+                ],
+        ]]);
+
+        $this->assertFalse($user->isMerchantVerified());
+    }
+
+    public function testMerchantVerifiedIsFalseWhenNoMerchantData()
+    {
+        $user = new SallaUser([
+            'status'=> 200,
+            'success'=> true,
+            'data'=>[
+                'id' => '12345',
+                'name' => 'mock name',
+        ]]);
+
+        $this->assertFalse($user->isMerchantVerified());
     }
 
     public function testUserPartialData()
