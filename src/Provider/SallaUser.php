@@ -169,6 +169,17 @@ class SallaUser implements ResourceOwnerInterface
     }
 
     /**
+     * Whether the merchant is genuinely KYC/identity-verified (not merely email-verified).
+     * Only present in the response for callers Dashboard allows to see it.
+     *
+     * @return bool
+     */
+    public function isMerchantVerified()
+    {
+        return (bool) $this->getResponseValue('data.merchant.has_verified');
+    }
+
+    /**
      * Get store domain.
      *
      * @return string|null
